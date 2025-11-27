@@ -27,7 +27,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0", "0.5", "1", "◀ Left Half"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0,
+        "w": 0.5,
+        "h": 1,
+        "message": "◀ Left Half",
+        "gap": 0
+      }
     },
     "window_right": {
       "name": "Window Right Half",
@@ -36,7 +44,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.5", "0", "0.5", "1", "▶ Right Half"]
+      "args": {
+        "action": "move",
+        "x": 0.5,
+        "y": 0,
+        "w": 0.5,
+        "h": 1,
+        "message": "▶ Right Half",
+        "gap": 0
+      }
     },
     "window_top": {
       "name": "Window Top Half",
@@ -45,7 +61,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0", "1", "0.5", "▲ Top Half"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.5,
+        "message": "▲ Top Half",
+        "gap": 0
+      }
     },
     "window_bottom": {
       "name": "Window Bottom Half",
@@ -54,7 +78,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0.5", "1", "0.5", "▼ Bottom Half"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0.5,
+        "w": 1,
+        "h": 0.5,
+        "message": "▼ Bottom Half",
+        "gap": 0
+      }
     },
     "window_maximize": {
       "name": "Window Maximize",
@@ -63,7 +95,11 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["maximize", "0", "0", "1", "1", "⬜ Maximize"]
+      "args": {
+        "action": "maximize",
+        "message": "⬜ Maximize",
+        "gap": 0
+      }
     },
     "window_left_third": {
       "name": "Window Left Third",
@@ -72,7 +108,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0", "0.333", "1", "◀ Left Third"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0,
+        "w": 0.333,
+        "h": 1,
+        "message": "◀ Left Third",
+        "gap": 0
+      }
     },
     "window_right_third": {
       "name": "Window Right Third",
@@ -81,7 +125,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.667", "0", "0.333", "1", "▶ Right Third"]
+      "args": {
+        "action": "move",
+        "x": 0.667,
+        "y": 0,
+        "w": 0.333,
+        "h": 1,
+        "message": "▶ Right Third",
+        "gap": 0
+      }
     },
     "window_left_two_thirds": {
       "name": "Window Left Two Thirds",
@@ -90,7 +142,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0", "0.667", "1", "◀◀ Left 2/3"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0,
+        "w": 0.667,
+        "h": 1,
+        "message": "◀◀ Left 2/3",
+        "gap": 0
+      }
     },
     "window_right_two_thirds": {
       "name": "Window Right Two Thirds",
@@ -99,7 +159,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.333", "0", "0.667", "1", "▶▶ Right 2/3"]
+      "args": {
+        "action": "move",
+        "x": 0.333,
+        "y": 0,
+        "w": 0.667,
+        "h": 1,
+        "message": "▶▶ Right 2/3",
+        "gap": 0
+      }
     },
     "window_center_third": {
       "name": "Window Center Third",
@@ -108,7 +176,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.333", "0", "0.334", "1", "◼ Center Third"]
+      "args": {
+        "action": "move",
+        "x": 0.333,
+        "y": 0,
+        "w": 0.334,
+        "h": 1,
+        "message": "◼ Center Third",
+        "gap": 0
+      }
     },
     "window_top_left": {
       "name": "Window Top Left Quarter",
@@ -117,7 +193,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0", "0.5", "0.5", "◤ Top Left"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0,
+        "w": 0.5,
+        "h": 0.5,
+        "message": "◤ Top Left",
+        "gap": 0
+      }
     },
     "window_top_right": {
       "name": "Window Top Right Quarter",
@@ -126,7 +210,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.5", "0", "0.5", "0.5", "◥ Top Right"]
+      "args": {
+        "action": "move",
+        "x": 0.5,
+        "y": 0,
+        "w": 0.5,
+        "h": 0.5,
+        "message": "◥ Top Right",
+        "gap": 0
+      }
     },
     "window_bottom_left": {
       "name": "Window Bottom Left Quarter",
@@ -135,7 +227,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0", "0.5", "0.5", "0.5", "◣ Bottom Left"]
+      "args": {
+        "action": "move",
+        "x": 0,
+        "y": 0.5,
+        "w": 0.5,
+        "h": 0.5,
+        "message": "◣ Bottom Left",
+        "gap": 0
+      }
     },
     "window_bottom_right": {
       "name": "Window Bottom Right Quarter",
@@ -144,7 +244,15 @@
       "category": "Window",
       "type": "lua",
       "script_path": "resources/scripts/window_move.lua",
-      "args": ["move", "0.5", "0.5", "0.5", "0.5", "◢ Bottom Right"]
+      "args": {
+        "action": "move",
+        "x": 0.5,
+        "y": 0.5,
+        "w": 0.5,
+        "h": 0.5,
+        "message": "◢ Bottom Right",
+        "gap": 0
+      }
     },
     "save_window_position": {
       "name": "Save Window Position",

@@ -15,27 +15,22 @@
     "stripped_doc" : [
 
     ],
+    "desc" : "Hyperkey-based app launcher and window management hub",
     "Deprecated" : [
 
     ],
-    "desc" : "Hyperkey-based app launcher and window management hub",
     "type" : "Module",
     "Constructor" : [
 
     ],
-    "Field" : [
-
-    ],
+    "doc" : "Hyperkey-based app launcher and window management hub\n\nFeatures:\n- Use F19 key (remapped Caps Lock) as Hyper key\n- Launch\/focus\/hide applications with toggle\n- Window management (left\/right half, maximize, center, thirds)\n- Support for Electron apps (Arc, VSCode, etc.) hiding\n\nDownload: https:\/\/github.com\/TK568\/HyperkeyHub.spoon",
     "Method" : [
       {
         "doc" : "Override configuration (for advanced customization)\n\nParameters:\n * configuration - Table of configuration to override\n\nReturns:\n * The HyperkeyHub object\n\nNotes:\n * For basic configuration, use JSON config file (~\/.hammerspoon\/HyperkeyHub\/config.json)\n * Use this method when you need settings that cannot be expressed in JSON (e.g., custom functions)\n * This configuration takes priority as it is loaded after JSON config",
+        "desc" : "Override configuration (for advanced customization)",
+        "def" : "HyperkeyHub:configure(configuration)",
         "stripped_doc" : [
           "Override configuration (for advanced customization)",
-          ""
-        ],
-        "def" : "HyperkeyHub:configure(configuration)",
-        "parameters" : [
-          " * configuration - Table of configuration to override",
           ""
         ],
         "notes" : [
@@ -50,16 +45,17 @@
           ""
         ],
         "name" : "configure",
-        "desc" : "Override configuration (for advanced customization)"
+        "parameters" : [
+          " * configuration - Table of configuration to override",
+          ""
+        ]
       },
       {
         "doc" : "Spoon initialization (prepare resources only, do not start)",
+        "desc" : "Spoon initialization (prepare resources only, do not start)",
+        "def" : "HyperkeyHub:init()",
         "stripped_doc" : [
           "Spoon initialization (prepare resources only, do not start)"
-        ],
-        "def" : "HyperkeyHub:init()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -70,17 +66,17 @@
 
         ],
         "name" : "init",
-        "desc" : "Spoon initialization (prepare resources only, do not start)"
+        "parameters" : [
+
+        ]
       },
       {
         "doc" : "Start HyperkeyHub\n\nReturns:\n * The HyperkeyHub object",
+        "desc" : "Start HyperkeyHub",
+        "def" : "HyperkeyHub:start()",
         "stripped_doc" : [
           "Start HyperkeyHub",
           ""
-        ],
-        "def" : "HyperkeyHub:start()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -91,17 +87,17 @@
           " * The HyperkeyHub object"
         ],
         "name" : "start",
-        "desc" : "Start HyperkeyHub"
+        "parameters" : [
+
+        ]
       },
       {
         "doc" : "Stop HyperkeyHub\n\nReturns:\n * The HyperkeyHub object",
+        "desc" : "Stop HyperkeyHub",
+        "def" : "HyperkeyHub:stop()",
         "stripped_doc" : [
           "Stop HyperkeyHub",
           ""
-        ],
-        "def" : "HyperkeyHub:stop()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -112,22 +108,24 @@
           " * The HyperkeyHub object"
         ],
         "name" : "stop",
-        "desc" : "Stop HyperkeyHub"
+        "parameters" : [
+
+        ]
       }
     ],
     "Command" : [
 
     ],
+    "Field" : [
+
+    ],
     "items" : [
       {
         "doc" : "Override configuration (for advanced customization)\n\nParameters:\n * configuration - Table of configuration to override\n\nReturns:\n * The HyperkeyHub object\n\nNotes:\n * For basic configuration, use JSON config file (~\/.hammerspoon\/HyperkeyHub\/config.json)\n * Use this method when you need settings that cannot be expressed in JSON (e.g., custom functions)\n * This configuration takes priority as it is loaded after JSON config",
+        "desc" : "Override configuration (for advanced customization)",
+        "def" : "HyperkeyHub:configure(configuration)",
         "stripped_doc" : [
           "Override configuration (for advanced customization)",
-          ""
-        ],
-        "def" : "HyperkeyHub:configure(configuration)",
-        "parameters" : [
-          " * configuration - Table of configuration to override",
           ""
         ],
         "notes" : [
@@ -142,16 +140,17 @@
           ""
         ],
         "name" : "configure",
-        "desc" : "Override configuration (for advanced customization)"
+        "parameters" : [
+          " * configuration - Table of configuration to override",
+          ""
+        ]
       },
       {
         "doc" : "Spoon initialization (prepare resources only, do not start)",
+        "desc" : "Spoon initialization (prepare resources only, do not start)",
+        "def" : "HyperkeyHub:init()",
         "stripped_doc" : [
           "Spoon initialization (prepare resources only, do not start)"
-        ],
-        "def" : "HyperkeyHub:init()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -162,17 +161,17 @@
 
         ],
         "name" : "init",
-        "desc" : "Spoon initialization (prepare resources only, do not start)"
+        "parameters" : [
+
+        ]
       },
       {
         "doc" : "Start HyperkeyHub\n\nReturns:\n * The HyperkeyHub object",
+        "desc" : "Start HyperkeyHub",
+        "def" : "HyperkeyHub:start()",
         "stripped_doc" : [
           "Start HyperkeyHub",
           ""
-        ],
-        "def" : "HyperkeyHub:start()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -183,17 +182,17 @@
           " * The HyperkeyHub object"
         ],
         "name" : "start",
-        "desc" : "Start HyperkeyHub"
+        "parameters" : [
+
+        ]
       },
       {
         "doc" : "Stop HyperkeyHub\n\nReturns:\n * The HyperkeyHub object",
+        "desc" : "Stop HyperkeyHub",
+        "def" : "HyperkeyHub:stop()",
         "stripped_doc" : [
           "Stop HyperkeyHub",
           ""
-        ],
-        "def" : "HyperkeyHub:stop()",
-        "parameters" : [
-
         ],
         "notes" : [
 
@@ -204,10 +203,11 @@
           " * The HyperkeyHub object"
         ],
         "name" : "stop",
-        "desc" : "Stop HyperkeyHub"
+        "parameters" : [
+
+        ]
       }
     ],
-    "doc" : "Hyperkey-based app launcher and window management hub\n\nFeatures:\n- Use F19 key (remapped Caps Lock) as Hyper key\n- Launch\/focus\/hide applications with toggle\n- Window management (left\/right half, maximize, center, thirds)\n- Support for Electron apps (Arc, VSCode, etc.) hiding\n\nDownload: https:\/\/github.com\/TK568\/HyperkeyHub.spoon",
     "name" : "HyperkeyHub"
   }
 ]
