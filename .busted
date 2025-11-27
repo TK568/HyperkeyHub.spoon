@@ -1,0 +1,21 @@
+return {
+  _all = {
+    -- Enable colored output
+    color = true,
+
+    -- Verbose mode
+    verbose = true,
+
+    -- Test pattern
+    pattern = "_spec",
+
+    -- Coverage settings (optional)
+    coverage = false,
+
+    -- Output format
+    output = "utfTerminal",
+
+    -- Helper files to load before tests
+    helper = "spec/spec_helper.lua"
+  }
+}

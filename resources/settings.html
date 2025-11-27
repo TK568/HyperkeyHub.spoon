@@ -1,0 +1,2396 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>HyperkeyHub Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 1000px;
+            width: 100%;
+            overflow: hidden;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-toggle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .shortcut-section {
+            padding: 20px;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .shortcut-section + .shortcut-section {
+            margin-top: 24px;
+        }
+
+        .app-list {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .app-item {
+            display: grid;
+            grid-template-columns: 120px minmax(0, 1fr) auto;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: flex-start;
+        }
+
+        .app-item:last-child {
+            border-bottom: none;
+        }
+
+        .app-item.editing {
+            background: #f4f5fb;
+        }
+
+        .app-item:hover {
+            background: #f8f9fa;
+        }
+
+        .app-key {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            background: #f0f4ff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            text-align: center;
+            white-space: nowrap;
+            min-width: 0;
+            letter-spacing: 0.05em;
+        }
+
+        .app-info {
+            max-width: 360px;
+            min-width: 0;
+            overflow: hidden;
+            width: 100%;
+            justify-self: start;
+        }
+
+        .app-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .app-bundle {
+            font-size: 12px;
+            color: #666;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-edit {
+            padding: 6px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-edit:hover {
+            background: #5568d3;
+        }
+
+        .backup-list .backup-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 16px;
+        }
+
+        .backup-list .backup-item:last-child {
+            border-bottom: none;
+        }
+
+        .backup-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .backup-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .backup-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .backup-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-restore {
+            padding: 6px 12px;
+            background: #2ed573;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-restore:hover {
+            background: #1eae60;
+        }
+
+        .btn-delete {
+            padding: 6px 12px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: #e84118;
+        }
+
+        .btn-add {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #5568d3;
+        }
+
+        .add-form {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .add-form.active {
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group select {
+            background: white;
+            cursor: pointer;
+        }
+
+        .app-inline-form {
+            grid-column: 1 / -1;
+            width: 100%;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .modifier-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .modifier-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            font-size: 13px;
+        }
+
+        .modifier-options input {
+            width: auto;
+        }
+
+        .readonly-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 13px;
+            color: #555;
+            word-break: break-all;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .btn-cancel {
+            padding: 8px 16px;
+            background: white;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            padding: 24px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .btn-preset {
+            padding: 10px 16px;
+            background: white;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-preset:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .btn-preset.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #667eea;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .btn-detect {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-detect:hover {
+            background: #5568d3;
+        }
+
+        .btn-detect.detecting {
+            background: #ff6b6b;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            padding: 0 30px;
+            border-bottom: 2px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: #f4f5f7;
+            color: #666;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            color: #4c5fd5;
+            background: #eef0fb;
+        }
+
+        .tab-button.active {
+            background: #fff;
+            color: #4c5fd5;
+            border-bottom-color: #764ba2;
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⌨️ HyperkeyHub Settings</h1>
+            <p>✧ Key-based App Launcher - Application Configuration</p>
+        </div>
+
+        <div class="content">
+            <div id="alertContainer" style="padding: 16px 30px 0;"></div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="general" onclick="switchTab('general')">⚙️ General</button>
+                <button class="tab-button" data-tab="shortcuts" onclick="switchTab('shortcuts')">⌨️ Shortcuts</button>
+                <button class="tab-button" data-tab="scripts" onclick="switchTab('scripts')">📜 Scripts</button>
+                <button class="tab-button" data-tab="backup" onclick="switchTab('backup')">💾 Backup</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-panel active" data-tab="general">
+                <div class="section">
+                    <div class="section-title">
+                        <span>✧ Key Settings</span>
+                    </div>
+
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>Current ✧ Key</label>
+                            <div style="font-family: 'Monaco', 'Courier New', monospace; font-size: 16px; font-weight: 600; color: #667eea; background: #f0f4ff; padding: 12px; border-radius: 4px; text-align: center; margin-bottom: 16px;" id="currentHotkey">
+                                F19
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Choose from Presets</label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; margin-bottom: 16px;">
+                                <button class="btn-preset" onclick="selectPresetKey(80, 'F19')">F19</button>
+                                <button class="btn-preset" onclick="selectPresetKey(79, 'F18')">F18</button>
+                                <button class="btn-preset" onclick="selectPresetKey(78, 'F17')">F17</button>
+                                <button class="btn-preset" onclick="selectPresetKey(77, 'F16')">F16</button>
+                                <button class="btn-preset" onclick="selectPresetKey(76, 'F15')">F15</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Detect Custom Key</label>
+                            <button class="btn-detect" id="detectBtn" onclick="startKeyDetection()">Detect Key</button>
+                            <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                                Click "Detect Key" button, then press the key you want to use
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span>🔔 Notifications</span>
+                        </div>
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                            <div style="font-weight: 500; color: #333; margin-bottom: 8px;">Toast Notification Settings</div>
+                            <div style="font-size: 12px; color: #666; margin-bottom: 12px;">
+                                Choose when to display visual feedback
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="radio" name="showAlerts" value="all" id="showAlertsAll" onchange="updateShowAlerts()" checked style="width: auto;">
+                                    <span style="font-weight: 500;">All</span>
+                                    <span style="font-size: 12px; color: #666;">- Show all notifications</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="radio" name="showAlerts" value="errors" id="showAlertsErrors" onchange="updateShowAlerts()" style="width: auto;">
+                                    <span style="font-weight: 500;">Errors only</span>
+                                    <span style="font-size: 12px; color: #666;">- Show only error notifications</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="radio" name="showAlerts" value="none" id="showAlertsNone" onchange="updateShowAlerts()" style="width: auto;">
+                                    <span style="font-weight: 500;">None</span>
+                                    <span style="font-size: 12px; color: #666;">- Disable all notifications</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">
+                            <span>📄 Configuration File</span>
+                        </div>
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                            <div style="font-family: 'Monaco', 'Courier New', monospace; font-size: 11px; color: #555; background: #fff; padding: 12px; border-radius: 4px; word-break: break-all;" id="configPathDisplay">
+                                Loading...
+                            </div>
+                            <div style="font-size: 11px; color: #666; margin-top: 8px;">
+                                Current configuration file path
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" data-tab="shortcuts">
+                <div class="section shortcut-section">
+                    <div class="section-title">
+                        <div class="section-title-text">
+                            <span class="section-toggle">▼</span>
+                            <span>Applications</span>
+                        </div>
+                        <button class="btn-add" onclick="toggleAddForm()">➕ Add New</button>
+                    </div>
+
+                    <div class="add-form" id="addForm">
+                        <div class="form-group">
+                            <label for="appSelector">Select from Running Apps</label>
+                            <select id="appSelector" onchange="selectRunningApp()">
+                                <option value="">-- Please select --</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newAppName">App Name</label>
+                                <input type="text" id="newAppName" placeholder="e.g., Google Chrome">
+                            </div>
+                            <div class="form-group">
+                                <label for="newAppKey">Key (1 character)</label>
+                                <input type="text" id="newAppKey" placeholder="e.g., c" maxlength="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newAppBundle">Bundle ID</label>
+                            <input type="text" id="newAppBundle" placeholder="e.g., com.google.Chrome">
+                        </div>
+                        <div class="form-group">
+                            <label>Modifier Keys (optional)</label>
+                            <div style="display: flex; gap: 15px; margin-top: 5px;">
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="modShift" style="width: auto;">
+                                    <span>⇧ Shift</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="modCmd" style="width: auto;">
+                                    <span>⌘ Command</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="modAlt" style="width: auto;">
+                                    <span>⌥ Option</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="modCtrl" style="width: auto;">
+                                    <span>⌃ Control</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-cancel" onclick="cancelAdd()">Cancel</button>
+                            <button class="btn-submit" onclick="addApp()">Add</button>
+                        </div>
+                    </div>
+
+                    <div class="app-list" id="appList">
+                        <div class="empty-state">No applications registered</div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        💡 <strong>Usage:</strong> Press ✧ Key + configured key to launch/switch applications.
+                    </div>
+                </div>
+
+                <div class="section shortcut-section">
+                    <div class="section-title">
+                        <div class="section-title-text">
+                            <span class="section-toggle">▼</span>
+                            <span>System Actions</span>
+                        </div>
+                    </div>
+
+                    <div class="app-list" id="systemShortcutList">
+                        <div class="empty-state">System actions will appear here</div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        💡 <strong>Tip:</strong> System actions are always enabled. Customize their keys to avoid conflicts with app and window shortcuts.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" data-tab="scripts">
+                <div class="section shortcut-section">
+                    <div class="section-title">
+                        <div class="section-title-text">
+                            <span>Scripts</span>
+                        </div>
+                        <button class="btn-add" onclick="toggleAddScriptForm()">➕ Add New</button>
+                    </div>
+
+                    <div class="add-form" id="addScriptForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newScriptName">Script Name</label>
+                                <input type="text" id="newScriptName" placeholder="e.g., My Script">
+                            </div>
+                            <div class="form-group">
+                                <label for="newScriptKey">Key (1 character)</label>
+                                <input type="text" id="newScriptKey" placeholder="e.g., 1" maxlength="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Modifier Keys (optional)</label>
+                            <div style="display: flex; gap: 15px; margin-top: 5px;">
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="scriptModShift" style="width: auto;">
+                                    <span>⇧ Shift</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="scriptModCmd" style="width: auto;">
+                                    <span>⌘ Command</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="scriptModAlt" style="width: auto;">
+                                    <span>⌥ Option</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="checkbox" id="scriptModCtrl" style="width: auto;">
+                                    <span>⌃ Control</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="scriptType">Script Type</label>
+                            <select id="scriptType" onchange="toggleScriptInputType()">
+                                <option value="shell">Shell Script</option>
+                                <option value="applescript">AppleScript</option>
+                                <option value="lua">Lua Script</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="scriptCategory">Category (optional)</label>
+                            <input type="text" id="scriptCategory" placeholder="e.g., Window, System, Custom">
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                Scripts will be grouped by category. Leave empty for "Uncategorized"
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px;">Source</label>
+                            <div style="display: flex; gap: 20px;">
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="radio" name="scriptSource" value="file" checked onchange="toggleScriptSource()" style="width: auto;">
+                                    <span>Script File Path</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                    <input type="radio" name="scriptSource" value="inline" onchange="toggleScriptSource()" style="width: auto;">
+                                    <span>Inline Script</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="scriptPathGroup">
+                            <label for="scriptPath">Script File Path</label>
+                            <input type="text" id="scriptPath" placeholder="e.g., ~/scripts/my_script.sh">
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                Tilde (~) will be expanded to home directory
+                            </div>
+                        </div>
+                        <div class="form-group" id="scriptInlineGroup" style="display: none;">
+                            <label for="scriptInline">Inline Script Code</label>
+                            <textarea id="scriptInline" rows="4" placeholder="e.g., echo 'Hello World'"></textarea>
+                        </div>
+                        <div class="form-group" id="scriptArgsGroup">
+                            <label for="scriptArgs">Arguments (optional)</label>
+                            <textarea id="scriptArgs" rows="3" placeholder='Array: ["arg1", "arg2"] or Object: {"key": "value"}'></textarea>
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                JSON format. Array: ["a", "b"] or Object: {"action": "move", "gap": 12}
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-cancel" onclick="cancelAddScript()">Cancel</button>
+                            <button class="btn-submit" onclick="addScript()">Add</button>
+                        </div>
+                    </div>
+
+                    <div class="app-list" id="scriptList">
+                        <div class="empty-state">No script shortcuts registered</div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        💡 <strong>Usage:</strong> Press ✧ Key + configured key to execute scripts.
+                        <br>Shell scripts are executed with <code>/bin/bash</code>, AppleScripts with <code>osascript</code>, Lua scripts with Hammerspoon's Lua runtime.
+                        <br>Lua scripts can receive arguments and access all Hammerspoon APIs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" data-tab="backup">
+                <div class="section">
+                    <div class="section-title">
+                        <span>Backup Management</span>
+                    </div>
+
+                    <div class="app-list backup-list" id="backupList">
+                        <div class="empty-state">No backups available</div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        💡 <strong>Tip:</strong> Restoring a backup overwrites the current configuration.
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="cancel()">Cancel</button>
+            <button class="btn btn-primary" onclick="save()">Save & Restart</button>
+        </div>
+    </div>
+
+    <script>
+        let applications = {};
+        let runningApps = [];
+        let hyperKeyCode = 80; // Default: F19
+        let hyperKeyName = 'F19';
+        let isDetecting = false;
+        let systemShortcuts = {};
+        let scriptShortcuts = {};
+        let backups = [];
+        let editingAppId = null;
+        let editingScriptId = null;
+        let initialState = null;
+        let showAlerts = "all";  // "all" | "errors" | "none"
+
+        const defaultSystemActions = [
+            { id: 'settings', name: 'Settings', defaultKey: ',', defaultModifiers: [] },
+            { id: 'reload', name: 'Reload Config', defaultKey: 'r', defaultModifiers: ['shift'] },
+            { id: 'hammerspoon', name: 'Hammerspoon Console', defaultKey: 'h', defaultModifiers: ['shift'] },
+            { id: 'debug', name: 'Toggle Debug Mode', defaultKey: 'd', defaultModifiers: ['shift'] }
+        ];
+
+        const modifierSymbols = {
+            shift: '⇧',
+            cmd: '⌘',
+            alt: '⌥',
+            ctrl: '⌃'
+        };
+
+        const keySymbols = {
+            left: '←',
+            right: '→',
+            up: '↑',
+            down: '↓'
+        };
+
+        function cloneModifiers(modifiers) {
+            return Array.isArray(modifiers) ? [...modifiers] : [];
+        }
+
+        function escapeHtml(value) {
+            if (value === null || value === undefined) {
+                return '';
+            }
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatShortcutDisplay(binding) {
+            if (!binding) {
+                return '✧?';
+            }
+            const mods = cloneModifiers(binding.modifiers);
+            const modDisplay = mods.map(mod => modifierSymbols[mod] || '').join('');
+            const keyDisplay = keySymbols[binding.key] || binding.key || '?';
+            return `✧${modDisplay}${keyDisplay}`;
+        }
+
+
+        function getEffectiveSystemShortcut(actionId) {
+            const action = defaultSystemActions.find(a => a.id === actionId);
+            if (!action) {
+                return { key: '', modifiers: [] };
+            }
+            const override = systemShortcuts[action.id];
+            const key = override && override.key ? override.key : action.defaultKey;
+            const modifiers = override && Array.isArray(override.modifiers)
+                ? cloneModifiers(override.modifiers)
+                : cloneModifiers(action.defaultModifiers || []);
+            return { key, modifiers };
+        }
+
+        function normalizeCombination(key, modifiers) {
+            const baseKey = (key || '').toLowerCase();
+            const sortedModifiers = cloneModifiers(modifiers).sort();
+            return sortedModifiers.length > 0
+                ? `${sortedModifiers.join('+')}+${baseKey}`
+                : baseKey;
+        }
+
+        function findShortcutConflict(key, modifiers, options = {}) {
+            const normalized = normalizeCombination(key, modifiers);
+
+            for (const app of Object.values(applications)) {
+                if (!app.key) continue;
+                const combo = normalizeCombination(app.key, app.modifiers || []);
+                if (combo === normalized) {
+                    return `⚠️ Conflicts with application "${app.name}"`;
+                }
+            }
+
+            for (const action of defaultSystemActions) {
+                if (options.ignoreSystemActionId && action.id === options.ignoreSystemActionId) {
+                    continue;
+                }
+                const binding = getEffectiveSystemShortcut(action.id);
+                const combo = normalizeCombination(binding.key, binding.modifiers || []);
+                if (combo === normalized) {
+                    return `⚠️ Conflicts with system action "${action.name}"`;
+                }
+            }
+
+            return null;
+        }
+
+        // Load current settings
+        window.loadSettings = function(config) {
+            // Check for config load error - if error exists, show error only and disable all settings
+            if (config.configLoadError) {
+                displayConfigLoadError(config.configLoadError);
+                return; // Do not render settings UI
+            }
+
+            applications = config.applications || {};
+            runningApps = config.runningApps || [];
+            hyperKeyCode = config.hyperKeyCode || 80;
+            hyperKeyName = config.hyperKeyName || 'F19';
+            backups = Array.isArray(config.backups) ? config.backups : [];
+
+            systemShortcuts = (config.systemShortcuts && typeof config.systemShortcuts === 'object' && !Array.isArray(config.systemShortcuts))
+                ? config.systemShortcuts
+                : {};
+
+            scriptShortcuts = (config.scriptShortcuts && typeof config.scriptShortcuts === 'object' && !Array.isArray(config.scriptShortcuts))
+                ? config.scriptShortcuts
+                : {};
+
+            // Handle showAlerts: "all" | "errors" | "none" (with backward compat)
+            if (config.showAlerts === true || config.showAlerts === "all") {
+                showAlerts = "all";
+            } else if (config.showAlerts === "errors") {
+                showAlerts = "errors";
+            } else if (config.showAlerts === false || config.showAlerts === "none") {
+                showAlerts = "none";
+            } else {
+                showAlerts = "all";
+            }
+            updateShowAlertsRadio();
+
+            initialState = {
+                applications: JSON.parse(JSON.stringify(applications)),
+                systemShortcuts: JSON.parse(JSON.stringify(systemShortcuts)),
+                scriptShortcuts: JSON.parse(JSON.stringify(scriptShortcuts)),
+                showAlerts: showAlerts
+            };
+
+            renderAppList();
+            renderAppSelector();
+            updateHotkeyDisplay();
+            renderSystemShortcuts();
+
+            const configPathDisplay = document.getElementById('configPathDisplay');
+            if (configPathDisplay && config.configPath) {
+                configPathDisplay.textContent = config.configPath;
+            }
+            renderScriptList();
+            renderBackupList();
+            updateSaveButtonState();
+        };
+
+        function displayConfigLoadError(errorMessage) {
+            // Hide all settings UI
+            const tabs = document.querySelector('.tabs');
+            const tabContent = document.querySelector('.tab-content');
+            const actions = document.querySelector('.actions');
+
+            if (tabs) tabs.style.display = 'none';
+            if (tabContent) tabContent.style.display = 'none';
+            if (actions) actions.style.display = 'none';
+
+            // Create error display
+            const content = document.querySelector('.content');
+            if (content) {
+                content.innerHTML = '';
+
+                const errorContainer = document.createElement('div');
+                errorContainer.style.cssText = 'padding: 40px; text-align: center;';
+
+                const errorBox = document.createElement('div');
+                errorBox.style.cssText = 'background: #fee; border: 2px solid #c33; color: #c33; padding: 30px; border-radius: 10px; max-width: 500px; margin: 0 auto;';
+                errorBox.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 20px;">⚠️</div>
+                    <h2 style="margin-bottom: 16px; font-size: 20px;">Configuration Load Error</h2>
+                    <p style="margin-bottom: 20px; font-size: 14px; line-height: 1.6;">${escapeHtml(errorMessage)}</p>
+                    <hr style="border: none; border-top: 1px solid #fcc; margin: 20px 0;">
+                    <p style="font-size: 13px; color: #666; line-height: 1.6;">
+                        Settings cannot be loaded or modified until this issue is resolved.<br>
+                        Please check file permissions or restore from backup.
+                    </p>
+                `;
+
+                errorContainer.appendChild(errorBox);
+                content.appendChild(errorContainer);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function updateHotkeyDisplay() {
+            document.getElementById('currentHotkey').textContent = hyperKeyName;
+
+            // Update preset button states
+            document.querySelectorAll('.btn-preset').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        function renderAppSelector() {
+            const selector = document.getElementById('appSelector');
+            selector.innerHTML = '<option value="">-- Please select --</option>';
+
+            for (const app of runningApps) {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(app);
+                option.textContent = `${app.name} (${app.bundle})`;
+                selector.appendChild(option);
+            }
+        }
+
+        function selectRunningApp() {
+            const selector = document.getElementById('appSelector');
+            if (!selector.value) return;
+
+            const app = JSON.parse(selector.value);
+            document.getElementById('newAppName').value = app.name;
+            document.getElementById('newAppBundle').value = app.bundle;
+
+            // Auto-suggest key (first letter of app name in lowercase)
+            const suggestedKey = app.name.charAt(0).toLowerCase();
+
+            // Check if key is already in use
+            let keyExists = false;
+            for (const existingApp of Object.values(applications)) {
+                if (existingApp.key === suggestedKey) {
+                    keyExists = true;
+                    break;
+                }
+            }
+
+            if (!keyExists) {
+                document.getElementById('newAppKey').value = suggestedKey;
+            } else {
+                document.getElementById('newAppKey').value = '';
+                document.getElementById('newAppKey').focus();
+            }
+        }
+
+
+        function renderSystemShortcuts() {
+            const list = document.getElementById('systemShortcutList');
+            if (!list) {
+                updateSaveButtonState();
+                return;
+            }
+
+            if (defaultSystemActions.length === 0) {
+                list.innerHTML = '<div class="empty-state">No default system actions defined</div>';
+                updateSaveButtonState();
+                return;
+            }
+
+            let html = '';
+            for (const action of defaultSystemActions) {
+                const binding = getEffectiveSystemShortcut(action.id);
+                const shortcutDisplay = formatShortcutDisplay(binding);
+
+                html += `
+                    <div class="app-item">
+                        <div class="app-key">${shortcutDisplay}</div>
+                        <div class="app-info">
+                            <div class="app-name">${action.name}</div>
+                        </div>
+                        <div class="app-actions">
+                            <button class="btn-edit" onclick="editSystemShortcut('${action.id}')">Edit</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            list.innerHTML = html;
+            updateSaveButtonState();
+        }
+
+        function editSystemShortcut(actionId) {
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) {
+                cancelAdd();
+            }
+
+            const action = defaultSystemActions.find(a => a.id === actionId);
+            if (!action) return;
+
+            const binding = getEffectiveSystemShortcut(actionId);
+            const keyValue = escapeHtml(binding.key || '');
+            const modifiers = binding.modifiers || [];
+            const modShift = modifiers.includes('shift') ? 'checked' : '';
+            const modCmd = modifiers.includes('cmd') ? 'checked' : '';
+            const modAlt = modifiers.includes('alt') ? 'checked' : '';
+            const modCtrl = modifiers.includes('ctrl') ? 'checked' : '';
+
+            const html = `
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 12px;" id="systemEditForm-${actionId}">
+                    <div style="font-weight: 600; margin-bottom: 16px;">${action.name}</div>
+
+                    <div class="form-group">
+                        <label>Key</label>
+                        <input type="text" id="systemKey-${actionId}" value="${keyValue}" maxlength="10"
+                               placeholder="e.g., h, r, ," style="width: 200px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Modifier Keys (optional)</label>
+                        <div style="display: flex; gap: 15px; margin-top: 5px;">
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="systemModShift-${actionId}" ${modShift} style="width: auto;">
+                                <span>⇧ Shift</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="systemModCmd-${actionId}" ${modCmd} style="width: auto;">
+                                <span>⌘ Command</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="systemModAlt-${actionId}" ${modAlt} style="width: auto;">
+                                <span>⌥ Option</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="systemModCtrl-${actionId}" ${modCtrl} style="width: auto;">
+                                <span>⌃ Control</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="cancelEditSystemShortcut('${actionId}')">Cancel</button>
+                        <button class="btn-submit" onclick="saveSystemShortcut('${actionId}')">Save</button>
+                        <button class="btn-cancel" style="background: #ff4757; color: white; border: none;" onclick="resetSystemShortcut('${actionId}')">Reset to Default</button>
+                    </div>
+                </div>
+            `;
+
+            const list = document.getElementById('systemShortcutList');
+            const existingForm = document.getElementById('systemEditForm-' + actionId);
+            if (existingForm) {
+                existingForm.remove();
+            }
+            list.insertAdjacentHTML('beforebegin', html);
+
+            const input = document.getElementById('systemKey-' + actionId);
+            if (input) {
+                input.focus();
+                input.select();
+            }
+            updateSaveButtonState();
+        }
+
+        function saveSystemShortcut(actionId) {
+            const action = defaultSystemActions.find(a => a.id === actionId);
+            if (!action) return;
+
+            const input = document.getElementById('systemKey-' + actionId);
+            if (!input) return;
+
+            const key = input.value.trim().toLowerCase();
+            if (!key) {
+                showAlert('error', '⚠️ Please specify a key.');
+                return;
+            }
+
+            const modifiers = [];
+            if (document.getElementById('systemModShift-' + actionId).checked) modifiers.push('shift');
+            if (document.getElementById('systemModCmd-' + actionId).checked) modifiers.push('cmd');
+            if (document.getElementById('systemModAlt-' + actionId).checked) modifiers.push('alt');
+            if (document.getElementById('systemModCtrl-' + actionId).checked) modifiers.push('ctrl');
+
+            const conflict = findShortcutConflict(key, modifiers, { ignoreSystemActionId: actionId });
+            if (conflict) {
+                showAlert('error', conflict);
+                return;
+            }
+
+            const defaultModifiers = action.defaultModifiers || [];
+            const currentCombo = normalizeCombination(key, modifiers);
+            const defaultCombo = normalizeCombination(action.defaultKey, defaultModifiers);
+            if (currentCombo === defaultCombo) {
+                delete systemShortcuts[actionId];
+            } else {
+                systemShortcuts[actionId] = { key, modifiers };
+            }
+
+            cancelEditSystemShortcut(actionId);
+            renderSystemShortcuts();
+            showAlert('info', '✅ System shortcut updated.');
+            updateSaveButtonState();
+        }
+
+        function cancelEditSystemShortcut(actionId) {
+            const form = document.getElementById('systemEditForm-' + actionId);
+            if (form) {
+                form.remove();
+            }
+            updateSaveButtonState();
+        }
+
+        function resetSystemShortcut(actionId) {
+            if (!confirm('Reset to default shortcut?')) {
+                return;
+            }
+            delete systemShortcuts[actionId];
+            cancelEditSystemShortcut(actionId);
+            renderSystemShortcuts();
+            showAlert('info', '✅ Reset to default shortcut.');
+        }
+
+        function formatBackupDate(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp * 1000);
+            if (isNaN(date.getTime())) {
+                return '-';
+            }
+            return date.toLocaleString();
+        }
+
+        function formatBackupSize(bytes) {
+            if (!bytes || bytes <= 0) return '0 B';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let size = bytes;
+            let unitIndex = 0;
+            while (size >= 1024 && unitIndex < units.length - 1) {
+                size /= 1024;
+                unitIndex++;
+            }
+            const precision = unitIndex === 0 ? 0 : 1;
+            return `${size.toFixed(precision)} ${units[unitIndex]}`;
+        }
+
+        function renderBackupList() {
+            const list = document.getElementById('backupList');
+            if (!list) return;
+
+            if (!backups || backups.length === 0) {
+                list.innerHTML = '<div class="empty-state">No backups available</div>';
+                return;
+            }
+
+            let html = '';
+            backups.forEach(backup => {
+                const restoreArg = JSON.stringify(backup.name);
+                html += `
+                    <div class="backup-item">
+                        <div class="backup-meta">
+                            <div class="backup-name">${backup.name}</div>
+                            <div class="backup-details">${formatBackupDate(backup.time)} · ${formatBackupSize(backup.size)}</div>
+                        </div>
+                        <div class="backup-actions">
+                            <button class="btn-restore" onclick="restoreBackup(${restoreArg})">Restore</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function restoreBackup(backupName) {
+            if (!backupName) {
+                showAlert('error', '❌ Backup name is missing.');
+                return;
+            }
+
+            if (!confirm(`Restore configuration from "${backupName}"? This will overwrite your current settings.`)) {
+                return;
+            }
+
+            try {
+                const message = {
+                    action: "restoreBackup",
+                    backupName: backupName
+                };
+                window.webkit.messageHandlers.settingsMessage.postMessage(message);
+                showAlert('info', `⏳ Restoring backup: ${backupName}`);
+            } catch (error) {
+                console.error('Failed to request backup restore:', error);
+                showAlert('error', '❌ Failed to restore backup.');
+            }
+        }
+
+        function renderAppList() {
+            const appList = document.getElementById('appList');
+            if (!appList) {
+                updateSaveButtonState();
+                return;
+            }
+
+            if (Object.keys(applications).length === 0) {
+                appList.innerHTML = '<div class="empty-state">No applications registered</div>';
+                editingAppId = null;
+                updateSaveButtonState();
+                return;
+            }
+
+            const modifierOrder = { 'shift': 1, 'cmd': 2, 'alt': 3, 'ctrl': 4 };
+
+            const sortedApps = Object.entries(applications).sort((a, b) => {
+                const modsA = a[1].modifiers || [];
+                const modsB = b[1].modifiers || [];
+
+                if (modsA.length !== modsB.length) {
+                    return modsA.length - modsB.length;
+                }
+
+                for (let i = 0; i < modsA.length; i++) {
+                    const orderA = modifierOrder[modsA[i]] || 99;
+                    const orderB = modifierOrder[modsB[i]] || 99;
+                    if (orderA !== orderB) {
+                        return orderA - orderB;
+                    }
+                }
+
+                const keyA = (a[1].key || '').toLowerCase();
+                const keyB = (b[1].key || '').toLowerCase();
+                return keyA.localeCompare(keyB);
+            });
+
+            let html = '';
+            for (const [id, app] of sortedApps) {
+                const modifiers = cloneModifiers(app.modifiers);
+                const modDisplay = modifiers.map(mod => modifierSymbols[mod] || '').join('');
+                const keyDisplay = escapeHtml(app.key || '?');
+                const nameDisplay = escapeHtml(app.name || 'Unnamed');
+                const bundleDisplay = escapeHtml(app.bundle || '-');
+
+                html += `
+                    <div class="app-item" id="appItem-${id}">
+                        <div class="app-key">✧${modDisplay}${keyDisplay}</div>
+                        <div class="app-info">
+                            <div class="app-name">${nameDisplay}</div>
+                            <div class="app-bundle">${bundleDisplay}</div>
+                        </div>
+                        <div class="app-actions">
+                            <button class="btn-edit" onclick="editApp('${id}')">Edit</button>
+                            <button class="btn-delete" onclick="deleteApp('${id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }
+            appList.innerHTML = html;
+            editingAppId = null;
+            updateSaveButtonState();
+        }
+
+        function toggleAddForm() {
+            const addScriptForm = document.getElementById('addScriptForm');
+            if (addScriptForm && addScriptForm.style.display !== 'none') {
+                cancelAddScript();
+            }
+
+            const form = document.getElementById('addForm');
+            if (!form) {
+                updateSaveButtonState();
+                return;
+            }
+            form.classList.toggle('active');
+            if (form.classList.contains('active')) {
+                document.getElementById('newAppName').focus();
+            }
+            updateSaveButtonState();
+        }
+
+        function cancelAdd() {
+            const form = document.getElementById('addForm');
+            if (form) {
+                form.classList.remove('active');
+            }
+            document.getElementById('appSelector').value = '';
+            document.getElementById('newAppName').value = '';
+            document.getElementById('newAppKey').value = '';
+            document.getElementById('newAppBundle').value = '';
+            document.getElementById('modShift').checked = false;
+            document.getElementById('modCmd').checked = false;
+            document.getElementById('modAlt').checked = false;
+            document.getElementById('modCtrl').checked = false;
+            updateSaveButtonState();
+        }
+
+        function addApp() {
+            const name = document.getElementById('newAppName').value.trim();
+            const key = document.getElementById('newAppKey').value.trim().toLowerCase();
+            const bundle = document.getElementById('newAppBundle').value.trim();
+
+            if (!name || !key || !bundle) {
+                showAlert('error', '⚠️ Please fill in all fields.');
+                return;
+            }
+
+            if (key.length !== 1 || !/^[a-z0-9]$/.test(key)) {
+                showAlert('error', '⚠️ Key must be a single alphanumeric character.');
+                return;
+            }
+
+            // Collect modifier keys
+            const modifiers = [];
+            if (document.getElementById('modShift').checked) modifiers.push('shift');
+            if (document.getElementById('modCmd').checked) modifiers.push('cmd');
+            if (document.getElementById('modAlt').checked) modifiers.push('alt');
+            if (document.getElementById('modCtrl').checked) modifiers.push('ctrl');
+
+            // Check for duplicate key combinations
+            const newCombo = normalizeCombination(key, modifiers);
+            for (const app of Object.values(applications)) {
+                const existingCombo = normalizeCombination(app.key || '', app.modifiers || []);
+                if (existingCombo === newCombo) {
+                    const modDisplay = modifiers.length > 0 ? modifiers.join('+') + '+' : '';
+                    showAlert('error', `⚠️ Key combination "${modDisplay}${key}" is already in use.`);
+                    return;
+                }
+            }
+
+                // Generate ID (lowercase, numbers, and underscores only)
+                const id = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+            applications[id] = {
+                name: name,
+                key: key,
+                bundle: bundle
+            };
+
+            // Add modifiers only if they exist
+            if (modifiers.length > 0) {
+                applications[id].modifiers = modifiers;
+            }
+
+            renderAppList();
+            showAlert('info', `✅ ${name} added successfully.`);
+
+            // Reset form
+            document.getElementById('appSelector').value = '';
+            document.getElementById('newAppName').value = '';
+            document.getElementById('newAppKey').value = '';
+            document.getElementById('newAppBundle').value = '';
+            document.getElementById('modShift').checked = false;
+            document.getElementById('modCmd').checked = false;
+            document.getElementById('modAlt').checked = false;
+            document.getElementById('modCtrl').checked = false;
+            updateSaveButtonState();
+        }
+
+        function editApp(id) {
+            const app = applications[id];
+            if (!app) {
+                return;
+            }
+
+            if (editingAppId === id) {
+                cancelEditApp(id);
+                return;
+            }
+
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) {
+                cancelAdd();
+            }
+
+            if (editingAppId) {
+                cancelEditApp(editingAppId);
+            }
+
+            const appItem = document.getElementById('appItem-' + id);
+            if (!appItem) {
+                return;
+            }
+
+            const modifiers = cloneModifiers(app.modifiers);
+            const modShift = modifiers.includes('shift') ? 'checked' : '';
+            const modCmd = modifiers.includes('cmd') ? 'checked' : '';
+            const modAlt = modifiers.includes('alt') ? 'checked' : '';
+            const modCtrl = modifiers.includes('ctrl') ? 'checked' : '';
+
+            const safeName = escapeHtml(app.name || '');
+            const safeKey = escapeHtml((app.key || '').substring(0, 1));
+            const safeBundle = escapeHtml(app.bundle || '-');
+
+            const html = `
+                <div class="app-inline-form" id="appEditForm-${id}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Application Name</label>
+                            <input type="text" id="editAppName-${id}" value="${safeName}" placeholder="e.g., Arc">
+                        </div>
+                        <div class="form-group">
+                            <label>Key (single character)</label>
+                            <input type="text" id="editAppKey-${id}" value="${safeKey}" maxlength="1" placeholder="a-z or 0-9">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Modifier Keys (optional)</label>
+                        <div class="modifier-options">
+                            <label>
+                                <input type="checkbox" id="editModShift-${id}" ${modShift}>
+                                <span>⇧ Shift</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" id="editModCmd-${id}" ${modCmd}>
+                                <span>⌘ Command</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" id="editModAlt-${id}" ${modAlt}>
+                                <span>⌥ Option</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" id="editModCtrl-${id}" ${modCtrl}>
+                                <span>⌃ Control</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Bundle ID (read only)</label>
+                        <div class="readonly-field">${safeBundle}</div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="cancelEditApp('${id}')">Cancel</button>
+                        <button class="btn-submit" onclick="saveApp('${id}')">Save</button>
+                    </div>
+                </div>
+            `;
+
+            appItem.insertAdjacentHTML('beforeend', html);
+            appItem.classList.add('editing');
+            editingAppId = id;
+
+            const nameInput = document.getElementById('editAppName-' + id);
+            if (nameInput) {
+                nameInput.focus();
+                nameInput.select();
+            }
+            updateSaveButtonState();
+        }
+
+        function saveApp(id) {
+            const app = applications[id];
+            if (!app) {
+                return;
+            }
+
+            const nameInput = document.getElementById('editAppName-' + id);
+            const keyInput = document.getElementById('editAppKey-' + id);
+            if (!nameInput || !keyInput) {
+                return;
+            }
+
+            const name = nameInput.value.trim();
+            const key = keyInput.value.trim().toLowerCase();
+
+            if (!name || !key) {
+                showAlert('error', '⚠️ Please fill in all fields.');
+                return;
+            }
+
+            if (key.length !== 1 || !/^[a-z0-9]$/.test(key)) {
+                showAlert('error', '⚠️ Key must be a single alphanumeric character.');
+                return;
+            }
+
+            const modifiers = [];
+            const modShiftInput = document.getElementById('editModShift-' + id);
+            const modCmdInput = document.getElementById('editModCmd-' + id);
+            const modAltInput = document.getElementById('editModAlt-' + id);
+            const modCtrlInput = document.getElementById('editModCtrl-' + id);
+            if (modShiftInput && modShiftInput.checked) modifiers.push('shift');
+            if (modCmdInput && modCmdInput.checked) modifiers.push('cmd');
+            if (modAltInput && modAltInput.checked) modifiers.push('alt');
+            if (modCtrlInput && modCtrlInput.checked) modifiers.push('ctrl');
+
+            const newCombo = normalizeCombination(key, modifiers);
+            for (const [otherId, otherApp] of Object.entries(applications)) {
+                if (otherId === id) continue;
+                const otherCombo = normalizeCombination(otherApp.key || '', otherApp.modifiers || []);
+                if (otherCombo === newCombo) {
+                    const modDisplay = modifiers.length > 0 ? modifiers.join('+') + '+' : '';
+                    showAlert('error', `⚠️ Key combination "${modDisplay}${key}" is already in use.`);
+                    return;
+                }
+            }
+
+            const updatedApp = {
+                ...app,
+                name: name,
+                key: key
+            };
+            if (modifiers.length > 0) {
+                updatedApp.modifiers = modifiers;
+            } else {
+                delete updatedApp.modifiers;
+            }
+
+            applications[id] = updatedApp;
+            cancelEditApp(id);
+            renderAppList();
+            showAlert('info', `✅ ${name} updated successfully.`);
+            updateSaveButtonState();
+        }
+
+        function cancelEditApp(id) {
+            const form = document.getElementById('appEditForm-' + id);
+            if (form) {
+                form.remove();
+            }
+            const appItem = document.getElementById('appItem-' + id);
+            if (appItem) {
+                appItem.classList.remove('editing');
+            }
+            if (editingAppId === id) {
+                editingAppId = null;
+            }
+            updateSaveButtonState();
+        }
+
+        function deleteApp(id) {
+            if (!confirm(`Delete ${applications[id].name}?`)) {
+                return;
+            }
+
+            cancelEditApp(id);
+            delete applications[id];
+            renderAppList();
+            showAlert('info', '✅ Application deleted successfully.');
+            updateSaveButtonState();
+        }
+
+        function selectPresetKey(keyCode, keyName) {
+            hyperKeyCode = keyCode;
+            hyperKeyName = keyName;
+            updateHotkeyDisplay();
+            showAlert('info', `✅ ✧ key changed to ${keyName}.`);
+        }
+
+        function updateShowAlerts() {
+            const selected = document.querySelector('input[name="showAlerts"]:checked');
+            if (selected) {
+                showAlerts = selected.value;
+            }
+            updateSaveButtonState();
+        }
+
+        function updateShowAlertsRadio() {
+            document.getElementById('showAlertsAll').checked = (showAlerts === "all");
+            document.getElementById('showAlertsErrors').checked = (showAlerts === "errors");
+            document.getElementById('showAlertsNone').checked = (showAlerts === "none");
+        }
+
+        function startKeyDetection() {
+            if (isDetecting) {
+                stopKeyDetection();
+                return;
+            }
+
+            isDetecting = true;
+            const btn = document.getElementById('detectBtn');
+            btn.textContent = 'Press a key... (ESC to cancel)';
+            btn.classList.add('detecting');
+
+            // Notify Lua to start key detection
+            try {
+                const message = {
+                    action: "startKeyDetection"
+                };
+                window.webkit.messageHandlers.settingsMessage.postMessage(message);
+            } catch (error) {
+                console.error('Failed to start key detection:', error);
+            }
+        }
+
+        function stopKeyDetection() {
+            isDetecting = false;
+            const btn = document.getElementById('detectBtn');
+            btn.textContent = 'Detect Key';
+            btn.classList.remove('detecting');
+
+            // Notify Lua to stop key detection
+            try {
+                const message = {
+                    action: "stopKeyDetection"
+                };
+                window.webkit.messageHandlers.settingsMessage.postMessage(message);
+            } catch (error) {
+                console.error('Failed to stop key detection:', error);
+            }
+        }
+
+        // Function called from Lua
+        window.setDetectedKey = function(keyCode, keyName) {
+            hyperKeyCode = keyCode;
+            hyperKeyName = keyName;
+            updateHotkeyDisplay();
+            stopKeyDetection();
+            showAlert('info', `✅ ✧ key changed to ${keyName} (keyCode: ${keyCode}).`);
+        };
+
+        function hasUnsavedChanges() {
+            if (!initialState) {
+                return false;
+            }
+
+            const applicationsChanged =
+                JSON.stringify(applications) !== JSON.stringify(initialState.applications);
+            const systemShortcutsChanged =
+                JSON.stringify(systemShortcuts) !== JSON.stringify(initialState.systemShortcuts);
+            const scriptShortcutsChanged =
+                JSON.stringify(scriptShortcuts) !== JSON.stringify(initialState.scriptShortcuts);
+            const showAlertsChanged =
+                showAlerts !== initialState.showAlerts;
+
+            return applicationsChanged || systemShortcutsChanged || scriptShortcutsChanged || showAlertsChanged;
+        }
+
+        function hasOpenEditForms() {
+            if (document.querySelector('.app-inline-form')) return true;
+            if (document.querySelector('[id^="editForm-"]')) return true;
+            if (document.querySelector('[id^="systemEditForm-"]')) return true;
+
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) return true;
+
+            return false;
+        }
+
+        function closeAllEditForms() {
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) {
+                cancelAdd();
+            }
+
+            const addScriptForm = document.getElementById('addScriptForm');
+            if (addScriptForm && addScriptForm.style.display !== 'none') {
+                cancelAddScript();
+            }
+
+            if (editingAppId) {
+                cancelEditApp(editingAppId);
+            }
+
+            if (editingScriptId) {
+                cancelEditScript(editingScriptId);
+            }
+
+            const systemEditForms = document.querySelectorAll('[id^="systemEditForm-"]');
+            systemEditForms.forEach(form => {
+                const actionId = form.id.replace('systemEditForm-', '');
+                cancelEditSystemShortcut(actionId);
+            });
+        }
+
+        function updateSaveButtonState() {
+            const saveButton = document.querySelector('.btn-save, button[onclick="save()"]');
+            if (!saveButton) {
+                return;
+            }
+
+            if (hasOpenEditForms()) {
+                saveButton.disabled = true;
+                saveButton.title = '編集を完了してから保存してください';
+                saveButton.style.opacity = '0.5';
+                saveButton.style.cursor = 'not-allowed';
+                return;
+            }
+
+            if (hasUnsavedChanges()) {
+                saveButton.disabled = false;
+                saveButton.title = '';
+                saveButton.style.opacity = '1';
+                saveButton.style.cursor = 'pointer';
+            } else {
+                saveButton.disabled = true;
+                saveButton.title = '変更がありません';
+                saveButton.style.opacity = '0.5';
+                saveButton.style.cursor = 'not-allowed';
+            }
+        }
+
+        function save() {
+            const config = {
+                applications: applications,
+                hyperKeyCode: hyperKeyCode,
+                hyperKeyName: hyperKeyName,
+                system_shortcuts: systemShortcuts,
+                script_shortcuts: scriptShortcuts,
+                showAlerts: showAlerts
+            };
+
+            try {
+                const message = {
+                    action: "save",
+                    config: JSON.stringify(config)
+                };
+                window.webkit.messageHandlers.settingsMessage.postMessage(message);
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+                showAlert('error', '❌ Failed to save settings.');
+            }
+        }
+
+        function cancel() {
+            if (hasUnsavedChanges()) {
+                const confirmed = confirm('⚠️ 編集中または入力中の項目があります。編集内容が失われますがよろしいですか？');
+                if (!confirmed) {
+                    return;
+                }
+            }
+
+            try {
+                const message = {
+                    action: "cancel"
+                };
+                window.webkit.messageHandlers.settingsMessage.postMessage(message);
+            } catch (error) {
+                console.error('Failed to cancel:', error);
+            }
+        }
+
+        function showAlert(type, message) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'error' ? 'alert-error' : 'alert-info';
+            alertContainer.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Script Shortcuts Functions
+        function toggleAddScriptForm() {
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) {
+                cancelAdd();
+            }
+
+            const form = document.getElementById('addScriptForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            if (form.style.display === 'block') {
+                document.getElementById('newScriptName').focus();
+            }
+        }
+
+        function toggleScriptSource() {
+            const source = document.querySelector('input[name="scriptSource"]:checked').value;
+            document.getElementById('scriptPathGroup').style.display = source === 'file' ? 'block' : 'none';
+            document.getElementById('scriptInlineGroup').style.display = source === 'inline' ? 'block' : 'none';
+        }
+
+        function toggleScriptInputType() {
+            const scriptType = document.getElementById('scriptType').value;
+            const pathInput = document.getElementById('scriptPath');
+            const inlineInput = document.getElementById('scriptInline');
+
+            if (scriptType === 'shell') {
+                pathInput.placeholder = 'e.g., ~/scripts/my_script.sh';
+                inlineInput.placeholder = 'e.g., echo \'Hello World\'';
+            } else if (scriptType === 'applescript') {
+                pathInput.placeholder = 'e.g., ~/scripts/my_script.scpt';
+                inlineInput.placeholder = 'e.g., display notification "Hello" with title "Test"';
+            } else if (scriptType === 'lua') {
+                pathInput.placeholder = 'e.g., resources/plugins/window_management/window_move.lua';
+                inlineInput.placeholder = 'e.g., hs.alert.show("Hello from Lua!", 2)';
+            }
+        }
+
+        function addScript() {
+            const name = document.getElementById('newScriptName').value.trim();
+            const key = document.getElementById('newScriptKey').value.trim().toLowerCase();
+            const scriptType = document.getElementById('scriptType').value;
+            const category = document.getElementById('scriptCategory').value.trim();
+            const source = document.querySelector('input[name="scriptSource"]:checked').value;
+            const scriptPath = document.getElementById('scriptPath').value.trim();
+            const scriptInline = document.getElementById('scriptInline').value.trim();
+            const scriptArgs = document.getElementById('scriptArgs').value.trim();
+
+            if (!name || !key) {
+                showAlert('error', '❌ Please fill in name and key fields');
+                return;
+            }
+
+            if (source === 'file' && !scriptPath) {
+                showAlert('error', '❌ Please provide a script file path');
+                return;
+            }
+
+            if (source === 'inline' && !scriptInline) {
+                showAlert('error', '❌ Please provide inline script code');
+                return;
+            }
+
+            const modifiers = [];
+            if (document.getElementById('scriptModShift').checked) modifiers.push('shift');
+            if (document.getElementById('scriptModCmd').checked) modifiers.push('cmd');
+            if (document.getElementById('scriptModAlt').checked) modifiers.push('alt');
+            if (document.getElementById('scriptModCtrl').checked) modifiers.push('ctrl');
+
+            // Check for duplicate key combinations
+            const newCombo = modifiers.sort().join('+') + '+' + key;
+            for (const id in scriptShortcuts) {
+                const script = scriptShortcuts[id];
+                const existingCombo = (script.modifiers || []).sort().join('+') + '+' + script.key;
+                if (existingCombo === newCombo) {
+                    showAlert('error', `❌ Key combination already used by: ${script.name}`);
+                    return;
+                }
+            }
+
+            const scriptId = 'script_' + Date.now();
+            scriptShortcuts[scriptId] = {
+                name: name,
+                key: key,
+                modifiers: modifiers,
+                type: scriptType
+            };
+
+            if (category) {
+                scriptShortcuts[scriptId].category = category;
+            }
+
+            if (source === 'file') {
+                scriptShortcuts[scriptId].script_path = scriptPath;
+            } else {
+                scriptShortcuts[scriptId].script_inline = scriptInline;
+            }
+
+            // Add args if provided (works for all script types)
+            if (scriptArgs) {
+                try {
+                    const parsedArgs = JSON.parse(scriptArgs);
+                    scriptShortcuts[scriptId].args = parsedArgs;
+                } catch (e) {
+                    showAlert('error', `Invalid JSON in arguments: ${e.message}`);
+                    return;
+                }
+            }
+
+            renderScriptList();
+            cancelAddScript();
+            showAlert('info', `✅ Script "${name}" added`);
+            updateSaveButtonState();
+        }
+
+        function cancelAddScript() {
+            document.getElementById('addScriptForm').style.display = 'none';
+            document.getElementById('newScriptName').value = '';
+            document.getElementById('newScriptKey').value = '';
+            document.getElementById('scriptCategory').value = '';
+            document.getElementById('scriptPath').value = '';
+            document.getElementById('scriptInline').value = '';
+            document.getElementById('scriptArgs').value = '';
+            document.getElementById('scriptType').value = 'shell';
+            document.querySelector('input[name="scriptSource"][value="file"]').checked = true;
+            document.getElementById('scriptModShift').checked = false;
+            document.getElementById('scriptModCmd').checked = false;
+            document.getElementById('scriptModAlt').checked = false;
+            document.getElementById('scriptModCtrl').checked = false;
+            toggleScriptSource();
+            toggleScriptInputType();
+            editingScriptId = null;
+        }
+
+        function renderScriptList() {
+            const list = document.getElementById('scriptList');
+
+            if (Object.keys(scriptShortcuts).length === 0) {
+                list.innerHTML = '<div class="empty-state">No script shortcuts registered</div>';
+                return;
+            }
+
+            const categorized = {};
+            for (const id in scriptShortcuts) {
+                const script = scriptShortcuts[id];
+                const category = script.category || 'Uncategorized';
+                if (!categorized[category]) {
+                    categorized[category] = [];
+                }
+                categorized[category].push({ id, script });
+            }
+
+            const sortedCategories = Object.keys(categorized).sort();
+
+            list.innerHTML = '';
+            for (const category of sortedCategories) {
+                const categorySection = document.createElement('div');
+                categorySection.style.marginBottom = '24px';
+
+                const categoryTitle = document.createElement('div');
+                categoryTitle.style.fontSize = '16px';
+                categoryTitle.style.fontWeight = '600';
+                categoryTitle.style.color = '#555';
+                categoryTitle.style.marginBottom = '12px';
+                categoryTitle.style.paddingLeft = '8px';
+                categoryTitle.style.borderLeft = '4px solid #667eea';
+                categoryTitle.textContent = category;
+                categorySection.appendChild(categoryTitle);
+
+                const categoryList = document.createElement('div');
+                categoryList.style.border = '1px solid #e0e0e0';
+                categoryList.style.borderRadius = '8px';
+                categoryList.style.overflow = 'hidden';
+
+                for (const { id, script } of categorized[category]) {
+                    const modDisplay = (script.modifiers || []).map(m => modifierSymbols[m] || '').join('');
+                    const keyDisplay = keySymbols[script.key] || script.key || '?';
+                    const keyText = `✧${modDisplay}${keyDisplay}`;
+                    const sourceText = script.script_path ? `File: ${script.script_path}` : 'Inline script';
+
+                    let typeIcon = '🐚';
+                    if (script.type === 'applescript') typeIcon = '🍎';
+                    else if (script.type === 'lua') typeIcon = '🌙';
+
+                    let argsText = '';
+                    if (script.args && (Array.isArray(script.args) ? script.args.length > 0 : Object.keys(script.args).length > 0)) {
+                        const argsDisplay = JSON.stringify(script.args);
+                        argsText = `<br><span style="font-size: 11px; color: #888;">Args: ${argsDisplay}</span>`;
+                    }
+
+                    const item = document.createElement('div');
+                    item.className = 'app-item';
+                    item.id = 'scriptItem-' + id;
+                    item.innerHTML = `
+                        <div class="app-key">${keyText}</div>
+                        <div class="app-info">
+                            <div class="app-name">${script.name}</div>
+                            <div class="app-bundle">${typeIcon} ${script.type} - ${sourceText}${argsText}</div>
+                        </div>
+                        <div class="app-actions">
+                            <button class="btn-edit" onclick="editScript('${id}')">Edit</button>
+                            <button class="btn-delete" onclick="deleteScript('${id}')" title="Remove shortcut">🗑️</button>
+                        </div>
+                    `;
+                    categoryList.appendChild(item);
+                }
+
+                categorySection.appendChild(categoryList);
+                list.appendChild(categorySection);
+            }
+        }
+
+        function deleteScript(id) {
+            const script = scriptShortcuts[id];
+            if (confirm(`Remove shortcut "${script.name}"?`)) {
+                delete scriptShortcuts[id];
+                renderScriptList();
+                showAlert('info', `✅ Shortcut "${script.name}" removed`);
+                updateSaveButtonState();
+            }
+        }
+
+        function editScript(id) {
+            const script = scriptShortcuts[id];
+            if (!script) {
+                return;
+            }
+
+            if (editingScriptId === id) {
+                cancelEditScript(id);
+                return;
+            }
+
+            const addForm = document.getElementById('addForm');
+            if (addForm && addForm.classList.contains('active')) {
+                cancelAdd();
+            }
+
+            if (editingScriptId) {
+                cancelEditScript(editingScriptId);
+            }
+
+            const scriptItem = document.getElementById('scriptItem-' + id);
+            if (!scriptItem) {
+                return;
+            }
+
+            editingScriptId = id;
+            scriptItem.classList.add('editing');
+
+            const modifiers = script.modifiers || [];
+            const isFileBased = !!script.script_path;
+            const scriptContent = isFileBased ? script.script_path : (script.script_inline || '');
+
+            scriptItem.style.display = 'block';
+            scriptItem.innerHTML = `
+                <div style="padding: 16px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Script Name</label>
+                            <input type="text" id="editScriptName-${id}" value="${script.name}">
+                        </div>
+                        <div class="form-group">
+                            <label>Key</label>
+                            <input type="text" id="editScriptKey-${id}" value="${script.key}" maxlength="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Modifier Keys</label>
+                        <div style="display: flex; gap: 15px; margin-top: 5px; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="editScriptModShift-${id}" ${modifiers.includes('shift') ? 'checked' : ''} style="width: auto;">
+                                <span>⇧ Shift</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="editScriptModCmd-${id}" ${modifiers.includes('cmd') ? 'checked' : ''} style="width: auto;">
+                                <span>⌘ Command</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="editScriptModAlt-${id}" ${modifiers.includes('alt') ? 'checked' : ''} style="width: auto;">
+                                <span>⌥ Option</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="checkbox" id="editScriptModCtrl-${id}" ${modifiers.includes('ctrl') ? 'checked' : ''} style="width: auto;">
+                                <span>⌃ Control</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Script Type</label>
+                        <select id="editScriptType-${id}" onchange="toggleEditScriptInputType('${id}')">
+                            <option value="shell" ${script.type === 'shell' ? 'selected' : ''}>Shell Script</option>
+                            <option value="applescript" ${script.type === 'applescript' ? 'selected' : ''}>AppleScript</option>
+                            <option value="lua" ${script.type === 'lua' ? 'selected' : ''}>Lua Script</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 8px;">Source</label>
+                        <div style="display: flex; gap: 20px;">
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="radio" name="editScriptSource-${id}" value="file" ${isFileBased ? 'checked' : ''} onchange="toggleEditScriptSource('${id}')" style="width: auto;">
+                                <span>Script File Path</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; font-weight: normal;">
+                                <input type="radio" name="editScriptSource-${id}" value="inline" ${!isFileBased ? 'checked' : ''} onchange="toggleEditScriptSource('${id}')" style="width: auto;">
+                                <span>Inline Script</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="editScriptPathGroup-${id}" style="display: ${isFileBased ? 'block' : 'none'};">
+                        <label>Script File Path</label>
+                        <input type="text" id="editScriptPath-${id}" value="${isFileBased ? scriptContent : ''}" placeholder="e.g., ~/scripts/my_script.sh">
+                    </div>
+                    <div class="form-group" id="editScriptInlineGroup-${id}" style="display: ${!isFileBased ? 'block' : 'none'};">
+                        <label>Inline Script Code</label>
+                        <textarea id="editScriptInline-${id}" rows="4" placeholder="e.g., echo 'Hello World'">${!isFileBased ? scriptContent : ''}</textarea>
+                    </div>
+                    <div class="form-group" id="editScriptArgsGroup-${id}">
+                        <label>Arguments (optional, JSON format)</label>
+                        <textarea id="editScriptArgs-${id}" rows="3" placeholder='Array: ["arg1", "arg2"] or Object: {"key": "value"}'>${script.args ? JSON.stringify(script.args, null, 2) : ''}</textarea>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                            JSON format. Array: ["a", "b"] or Object: {"action": "move", "gap": 12}
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="cancelEditScript('${id}')">Cancel</button>
+                        <button class="btn-submit" onclick="saveEditScript('${id}')">Save</button>
+                    </div>
+                </div>
+            `;
+
+            updateSaveButtonState();
+        }
+
+        function toggleEditScriptSource(id) {
+            const source = document.querySelector(`input[name="editScriptSource-${id}"]:checked`).value;
+            document.getElementById(`editScriptPathGroup-${id}`).style.display = source === 'file' ? 'block' : 'none';
+            document.getElementById(`editScriptInlineGroup-${id}`).style.display = source === 'inline' ? 'block' : 'none';
+        }
+
+        function toggleEditScriptInputType(id) {
+            const scriptType = document.getElementById(`editScriptType-${id}`).value;
+            const pathInput = document.getElementById(`editScriptPath-${id}`);
+            const inlineInput = document.getElementById(`editScriptInline-${id}`);
+
+            if (scriptType === 'shell') {
+                pathInput.placeholder = 'e.g., ~/scripts/my_script.sh';
+                inlineInput.placeholder = 'e.g., echo \'Hello World\'';
+            } else if (scriptType === 'applescript') {
+                pathInput.placeholder = 'e.g., ~/scripts/my_script.scpt';
+                inlineInput.placeholder = 'e.g., display notification "Hello" with title "Test"';
+            } else if (scriptType === 'lua') {
+                pathInput.placeholder = 'e.g., resources/plugins/window_management/window_move.lua';
+                inlineInput.placeholder = 'e.g., hs.alert.show("Hello from Lua!", 2)';
+            }
+        }
+
+        function cancelEditScript(id) {
+            editingScriptId = null;
+            renderScriptList();
+            updateSaveButtonState();
+        }
+
+        function saveEditScript(id) {
+            const name = document.getElementById(`editScriptName-${id}`).value.trim();
+            const key = document.getElementById(`editScriptKey-${id}`).value.trim().toLowerCase();
+            const scriptType = document.getElementById(`editScriptType-${id}`).value;
+            const source = document.querySelector(`input[name="editScriptSource-${id}"]:checked`).value;
+            const scriptPath = document.getElementById(`editScriptPath-${id}`).value.trim();
+            const scriptInline = document.getElementById(`editScriptInline-${id}`).value.trim();
+            const scriptArgsElem = document.getElementById(`editScriptArgs-${id}`);
+            const scriptArgs = scriptArgsElem ? scriptArgsElem.value.trim() : '';
+
+            if (!name || !key) {
+                showAlert('error', '❌ Please fill in name and key fields');
+                return;
+            }
+
+            if (source === 'file' && !scriptPath) {
+                showAlert('error', '❌ Please provide a script file path');
+                return;
+            }
+
+            if (source === 'inline' && !scriptInline) {
+                showAlert('error', '❌ Please provide inline script code');
+                return;
+            }
+
+            const modifiers = [];
+            if (document.getElementById(`editScriptModShift-${id}`).checked) modifiers.push('shift');
+            if (document.getElementById(`editScriptModCmd-${id}`).checked) modifiers.push('cmd');
+            if (document.getElementById(`editScriptModAlt-${id}`).checked) modifiers.push('alt');
+            if (document.getElementById(`editScriptModCtrl-${id}`).checked) modifiers.push('ctrl');
+
+            // Check for duplicate key combinations (excluding current item)
+            const newCombo = modifiers.sort().join('+') + '+' + key;
+            for (const otherId in scriptShortcuts) {
+                if (otherId === id) continue;
+                const script = scriptShortcuts[otherId];
+                const existingCombo = (script.modifiers || []).sort().join('+') + '+' + script.key;
+                if (existingCombo === newCombo) {
+                    showAlert('error', `❌ Key combination already used by: ${script.name}`);
+                    return;
+                }
+            }
+
+            scriptShortcuts[id] = {
+                name: name,
+                key: key,
+                modifiers: modifiers,
+                type: scriptType
+            };
+
+            if (source === 'file') {
+                scriptShortcuts[id].script_path = scriptPath;
+                delete scriptShortcuts[id].script_inline;
+            } else {
+                scriptShortcuts[id].script_inline = scriptInline;
+                delete scriptShortcuts[id].script_path;
+            }
+
+            // Handle args if provided (works for all script types)
+            if (scriptArgs) {
+                try {
+                    const parsedArgs = JSON.parse(scriptArgs);
+                    scriptShortcuts[id].args = parsedArgs;
+                } catch (e) {
+                    showAlert('error', `❌ Invalid JSON in arguments: ${e.message}`);
+                    return;
+                }
+            } else {
+                delete scriptShortcuts[id].args;
+            }
+
+            editingScriptId = null;
+            renderScriptList();
+            showAlert('info', `✅ Shortcut "${name}" updated`);
+            updateSaveButtonState();
+        }
+
+        function switchTab(tabName) {
+            closeAllEditForms();
+
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.tab === tabName);
+            });
+
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.toggle('active', panel.dataset.tab === tabName);
+            });
+        }
+
+        // Initial settings are loaded from Lua navigationCallback
+        // No need for window.onload
+    </script>
+</body>
+</html>

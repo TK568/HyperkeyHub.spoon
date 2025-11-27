@@ -1,0 +1,14 @@
+{
+  "name": "hyperkeyhub-spoon",
+  "version": "1.0.0",
+  "description": "ESLint configuration for HyperkeyHub Spoon",
+  "private": true,
+  "scripts": {
+    "lint": "eslint resources/settings.html",
+    "lint:fix": "eslint resources/settings.html --fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-html": "^8.1.2"
+  }
+}

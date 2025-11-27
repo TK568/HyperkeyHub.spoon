@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Hammerspoon
+*.log
+
+# Node.js
+node_modules/
+package-lock.json

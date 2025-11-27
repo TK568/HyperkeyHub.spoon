@@ -1,0 +1,177 @@
+{
+  "hyperKeyCode": 80,
+  "hyperKeyName": "F19",
+  "applications": {
+    "finder": {
+      "name": "Finder",
+      "key": "f",
+      "bundle": "com.apple.finder"
+    },
+    "safari": {
+      "name": "Safari",
+      "key": "s",
+      "bundle": "com.apple.Safari"
+    },
+    "terminal": {
+      "name": "Terminal",
+      "key": "t",
+      "bundle": "com.apple.Terminal"
+    }
+  },
+  "system_shortcuts": {},
+  "script_shortcuts": {
+    "window_left": {
+      "name": "Window Left Half",
+      "key": "left",
+      "modifiers": [],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0", "0.5", "1", "◀ Left Half"]
+    },
+    "window_right": {
+      "name": "Window Right Half",
+      "key": "right",
+      "modifiers": [],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.5", "0", "0.5", "1", "▶ Right Half"]
+    },
+    "window_top": {
+      "name": "Window Top Half",
+      "key": "up",
+      "modifiers": [],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0", "1", "0.5", "▲ Top Half"]
+    },
+    "window_bottom": {
+      "name": "Window Bottom Half",
+      "key": "down",
+      "modifiers": [],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0.5", "1", "0.5", "▼ Bottom Half"]
+    },
+    "window_maximize": {
+      "name": "Window Maximize",
+      "key": "m",
+      "modifiers": [],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["maximize", "0", "0", "1", "1", "⬜ Maximize"]
+    },
+    "window_left_third": {
+      "name": "Window Left Third",
+      "key": "left",
+      "modifiers": ["shift"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0", "0.333", "1", "◀ Left Third"]
+    },
+    "window_right_third": {
+      "name": "Window Right Third",
+      "key": "right",
+      "modifiers": ["shift"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.667", "0", "0.333", "1", "▶ Right Third"]
+    },
+    "window_left_two_thirds": {
+      "name": "Window Left Two Thirds",
+      "key": "up",
+      "modifiers": ["shift"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0", "0.667", "1", "◀◀ Left 2/3"]
+    },
+    "window_right_two_thirds": {
+      "name": "Window Right Two Thirds",
+      "key": "down",
+      "modifiers": ["shift"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.333", "0", "0.667", "1", "▶▶ Right 2/3"]
+    },
+    "window_center_third": {
+      "name": "Window Center Third",
+      "key": "c",
+      "modifiers": ["shift"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.333", "0", "0.334", "1", "◼ Center Third"]
+    },
+    "window_top_left": {
+      "name": "Window Top Left Quarter",
+      "key": "u",
+      "modifiers": ["cmd"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0", "0.5", "0.5", "◤ Top Left"]
+    },
+    "window_top_right": {
+      "name": "Window Top Right Quarter",
+      "key": "i",
+      "modifiers": ["cmd"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.5", "0", "0.5", "0.5", "◥ Top Right"]
+    },
+    "window_bottom_left": {
+      "name": "Window Bottom Left Quarter",
+      "key": "j",
+      "modifiers": ["cmd"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0", "0.5", "0.5", "0.5", "◣ Bottom Left"]
+    },
+    "window_bottom_right": {
+      "name": "Window Bottom Right Quarter",
+      "key": "k",
+      "modifiers": ["cmd"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_move.lua",
+      "args": ["move", "0.5", "0.5", "0.5", "0.5", "◢ Bottom Right"]
+    },
+    "save_window_position": {
+      "name": "Save Window Position",
+      "key": "s",
+      "modifiers": ["alt"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_position.lua",
+      "args": ["save"]
+    },
+    "restore_window_position": {
+      "name": "Restore Window Position",
+      "key": "r",
+      "modifiers": ["alt"],
+      "category": "Window",
+      "type": "lua",
+      "script_path": "resources/scripts/window_position.lua",
+      "args": ["restore"]
+    },
+    "start_screensaver": {
+      "name": "Start Screensaver",
+      "key": "q",
+      "modifiers": ["alt"],
+      "category": "System",
+      "type": "shell",
+      "script_path": "resources/scripts/start_screensaver.sh",
+      "args": []
+    }
+  }
+}
