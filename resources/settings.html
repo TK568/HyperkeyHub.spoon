@@ -1543,17 +1543,7 @@
 
             renderAppList();
             showAlert('info', `✅ ${name} added successfully.`);
-
-            // Reset form
-            document.getElementById('appSelector').value = '';
-            document.getElementById('newAppName').value = '';
-            document.getElementById('newAppKey').value = '';
-            document.getElementById('newAppBundle').value = '';
-            document.getElementById('modShift').checked = false;
-            document.getElementById('modCmd').checked = false;
-            document.getElementById('modAlt').checked = false;
-            document.getElementById('modCtrl').checked = false;
-            updateSaveButtonState();
+            cancelAdd();
         }
 
         function editApp(id) {
