@@ -17,15 +17,16 @@ local AppLauncher = {
 
 --- Launch an application with retry attempts
 --- @param self table AppLauncher instance
---- @param appName string Application name for launch/focus
+--- @param bundleID string Application bundle identifier
+--- @param appName string Application name for logging/alerts
 --- @param retryCount number Current retry count
-function AppLauncher:launchAppWithRetry(appName, retryCount)
+function AppLauncher:launchAppWithRetry(bundleID, appName, retryCount)
     retryCount = retryCount or 0
     local totalAttempts = self.options.maxRetries + 1
-    local success = hs.application.launchOrFocus(appName)
+    local success = hs.application.launchOrFocusByBundleID(bundleID)
 
     if success then
-        log:debug("Successfully launched: %s", appName)
+        log:debug("Successfully launched: %s (%s)", appName, bundleID)
         return true
     end
 
@@ -40,10 +41,10 @@ function AppLauncher:launchAppWithRetry(appName, retryCount)
         local timerDoAfter = hs.timer and hs.timer.doAfter
         if timerDoAfter then
             timerDoAfter(self.options.retryDelay, function()
-                self:launchAppWithRetry(appName, retryCount + 1)
+                self:launchAppWithRetry(bundleID, appName, retryCount + 1)
             end)
         else
-            self:launchAppWithRetry(appName, retryCount + 1)
+            self:launchAppWithRetry(bundleID, appName, retryCount + 1)
         end
     else
         log:error("Failed to launch %s after %d attempts", appName, totalAttempts)
@@ -79,11 +80,11 @@ function AppLauncher:toggleApp(bundleID, appName)
             end
         else
             log:debug("App is not frontmost, focusing: %s", appName)
-            hs.application.launchOrFocus(appName)
+            hs.application.launchOrFocusByBundleID(bundleID)
         end
     else
         log:debug("App not running, launching: %s", appName)
-        self:launchAppWithRetry(appName, 0)
+        self:launchAppWithRetry(bundleID, appName, 0)
     end
 end
 
